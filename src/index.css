@@ -1,0 +1,460 @@
+:root {
+  color: #37352f;
+  background: #fff;
+  font: 16px/1.5 ui-sans-serif, -apple-system, "Segoe UI", sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+}
+
+.page {
+  min-height: 100vh;
+}
+
+.doc {
+  width: min(1240px, calc(100% - 64px));
+  margin: 0 auto;
+  padding: 72px 0 120px;
+}
+
+.page-head,
+.line {
+  display: grid;
+  grid-template-columns: minmax(0, 900px) 260px;
+  column-gap: 24px;
+  align-items: start;
+}
+
+.page-head {
+  margin-bottom: 28px;
+}
+
+.page-head h1 {
+  font-size: 40px;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.15;
+}
+
+.line + .line {
+  margin-top: 2px;
+}
+
+.line.heading {
+  margin-top: 22px;
+}
+
+.line.heading:first-of-type {
+  margin-top: 0;
+}
+
+.line-body {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  min-height: 32px;
+  padding: 2px 6px;
+  margin-left: -6px;
+  border-radius: 6px;
+}
+
+.line-body:hover {
+  background: #f7f6f3;
+}
+
+.line-copy {
+  flex: 1;
+  min-width: 0;
+}
+
+.line-copy h2 {
+  font-size: 24px;
+  font-weight: 650;
+  letter-spacing: -0.03em;
+  line-height: 1.3;
+}
+
+.line-copy p {
+  line-height: 1.5;
+}
+
+.plan-table {
+  margin: 8px 0 18px;
+}
+
+.plan-table .line {
+  margin-top: 0;
+}
+
+.plan-table .line-body {
+  align-items: start;
+  border-bottom: 1px solid #efefef;
+  border-radius: 0;
+  padding: 8px 6px;
+}
+
+.plan-table .table-head .line-body {
+  background: #f7f6f3;
+  border-bottom: 1px solid #e6e6e4;
+}
+
+.plan-table .table-head .cells {
+  color: #787774;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.cells {
+  display: grid;
+  flex: 1;
+  grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+  gap: 8px 12px;
+  min-width: 0;
+}
+
+.cells span {
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.cells a,
+.line-copy a {
+  color: #2f6fdb;
+  text-underline-offset: 2px;
+}
+
+.doc.article {
+  width: min(760px, calc(100% - 64px));
+}
+
+.doc.article h1 {
+  margin: 12px 0 16px;
+  font-size: 32px;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+}
+
+.doc.article h2 {
+  margin: 32px 0 8px;
+  font-size: 20px;
+}
+
+.doc.article h3 {
+  margin: 16px 0 4px;
+  font-size: 16px;
+}
+
+.doc.article p,
+.doc.article li {
+  margin: 8px 0;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.doc.article ol,
+.doc.article ul {
+  margin: 8px 0;
+  padding-left: 22px;
+}
+
+.back {
+  color: #787774;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.article-table {
+  margin: 12px 0;
+  overflow-x: auto;
+}
+
+.article-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.article-table th,
+.article-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid #efefef;
+  font-size: 14px;
+  line-height: 1.4;
+  text-align: left;
+  vertical-align: top;
+}
+
+.article-table th {
+  background: #f7f6f3;
+  color: #787774;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.article-table td:nth-child(2) {
+  white-space: nowrap;
+}
+
+.icon-gap {
+  width: 28px;
+  flex: none;
+}
+
+.note-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.note-card {
+  min-width: 0;
+  padding: 12px 14px 14px;
+  border: 1px solid #ececec;
+  border-radius: 12px;
+  background: #fafafa;
+}
+
+.note-card.wide {
+  grid-column: 1 / -1;
+}
+
+.note-card.wide .departments {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px 20px;
+}
+
+.note-card header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.note-card h3,
+.department h4 {
+  margin: 0;
+}
+
+.note-card h3 {
+  flex: 1;
+  font-size: 15px;
+  font-weight: 650;
+}
+
+.note-badge {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #f1f1ef;
+  color: #787774;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.note-card ul {
+  margin: 8px 0 0;
+  padding-left: 18px;
+}
+
+.note-card li {
+  margin-top: 4px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.department {
+  margin-top: 12px;
+}
+
+.department h4 {
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.note-comments {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.notes-line {
+  margin-top: 12px;
+}
+
+.add-comment {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #c3c2bf;
+  cursor: pointer;
+}
+
+.add-comment svg {
+  width: 16px;
+  height: 16px;
+}
+
+.add-comment:hover,
+.add-comment[aria-expanded='true'] {
+  background: transparent;
+  color: #9b9a97;
+}
+
+.line-comments {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+
+.comment-card {
+  padding: 12px 14px;
+  border: 1px solid #ececec;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(15, 15, 15, 0.04);
+}
+
+.comment-card time {
+  color: #9b9a97;
+  font-size: 13px;
+}
+
+.comment-card > p {
+  margin-top: 6px;
+}
+
+.comment-card.resolved {
+  opacity: 0.55;
+}
+
+.composer {
+  display: grid;
+  gap: 8px;
+}
+
+.composer textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.composer button,
+.resolve {
+  width: fit-content;
+  border: 0;
+  border-radius: 6px;
+  background: #37352f;
+  color: #fff;
+  cursor: pointer;
+}
+
+.composer button {
+  padding: 6px 10px;
+}
+
+.composer button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.comment-actions,
+.composer-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 8px;
+}
+
+.icon-button {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #b0afa9;
+  cursor: pointer;
+}
+
+.icon-button svg {
+  width: 15px;
+  height: 15px;
+}
+
+.icon-button:hover {
+  color: #37352f;
+}
+
+.resolve {
+  margin-top: 0;
+  padding: 2px 8px;
+  background: transparent;
+  color: #787774;
+}
+
+.resolve:hover {
+  background: #f1f1ef;
+}
+
+.error {
+  color: #c4554d;
+  font-size: 13px;
+}
+
+@media (max-width: 980px) {
+  .doc {
+    width: min(900px, calc(100% - 32px));
+  }
+
+  .page-head,
+  .line {
+    grid-template-columns: 1fr;
+    row-gap: 8px;
+  }
+
+  .plan-table {
+    overflow-x: auto;
+  }
+
+  .plan-table .line {
+    min-width: 760px;
+  }
+
+  .note-grid,
+  .note-card.wide .departments {
+    grid-template-columns: 1fr;
+  }
+}

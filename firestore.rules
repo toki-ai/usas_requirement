@@ -1,0 +1,50 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSlug(value) {
+      return value is string
+        && value.size() > 0
+        && value.size() < 80
+        && value.matches('^[a-z0-9]+(-[a-z0-9]+)*$');
+    }
+
+    match /comments/{commentId} {
+      allow read: if true;
+
+      allow create: if
+        request.resource.data.keys().hasOnly([
+          'sectionId',
+          'anchorId',
+          'parentId',
+          'authorName',
+          'body',
+          'status',
+          'createdAt'
+        ])
+        && isSlug(request.resource.data.sectionId)
+        && (request.resource.data.anchorId == null || isSlug(request.resource.data.anchorId))
+        && (
+          request.resource.data.parentId == null
+          || (request.resource.data.parentId is string && request.resource.data.parentId.size() < 128)
+        )
+        && request.resource.data.authorName is string
+        && request.resource.data.authorName.size() < 80
+        && request.resource.data.body is string
+        && request.resource.data.body.size() > 0
+        && request.resource.data.body.size() < 2000
+        && request.resource.data.status == 'open'
+        && request.resource.data.createdAt is timestamp;
+
+      allow update: if
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status'])
+          && request.resource.data.status in ['open', 'resolved', 'deleted']
+        || request.resource.data.diff(resource.data).affectedKeys().hasOnly(['body'])
+          && request.resource.data.body is string
+          && request.resource.data.body.size() > 0
+          && request.resource.data.body.size() < 2000;
+
+      allow delete: if false;
+    }
+  }
+}
