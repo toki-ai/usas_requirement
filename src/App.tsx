@@ -5,6 +5,7 @@ import { NoteGrid } from './plan/NoteGrid'
 import { AiForecastPage } from './plan/AiForecastPage'
 import { ExtracurricularPage } from './plan/ExtracurricularPage'
 import { plan } from './plan/sections'
+import { lastUpdated } from './plan/updated'
 import { TableBlock } from './plan/TableBlock'
 import type { Comment, PlanText } from './types'
 
@@ -63,7 +64,13 @@ export default function App() {
     <main className="page">
       <div className="doc">
         <header className="page-head">
-          <h1>{plan.title}</h1>
+          <div>
+            <h1>{plan.title}</h1>
+            <p className="last-updated">
+              Last updated: {lastUpdated.at} by{' '}
+              <a href={`https://github.com/${lastUpdated.by}`}>{lastUpdated.by}</a>
+            </p>
+          </div>
         </header>
         {error && <p className="error">{error}</p>}
         {plan.lines.map((block) =>

@@ -12,6 +12,8 @@ Deploy the comment rules and index before the first comment:
 npx firebase-tools deploy --only firestore --project usas-ec981
 ```
 
+Every code change must update `src/plan/updated.ts` in the same commit. `at` is the current time in UTC+7, formatted `YYYY-MM-DD HH:mm`. `by` is the GitHub username. This check runs on every push to `main` and every pull request.
+
 Deploy the site after a production build:
 
 ```bash

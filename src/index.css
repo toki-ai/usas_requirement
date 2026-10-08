@@ -60,6 +60,16 @@ a {
   line-height: 1.15;
 }
 
+.last-updated {
+  margin-top: 8px;
+  color: #9b9a97;
+  font-size: 14px;
+}
+
+.last-updated a {
+  text-underline-offset: 2px;
+}
+
 .line + .line {
   margin-top: 2px;
 }
