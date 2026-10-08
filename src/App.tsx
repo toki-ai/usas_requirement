@@ -4,6 +4,7 @@ import { LineRow } from './plan/LineRow'
 import { NoteGrid } from './plan/NoteGrid'
 import { AiForecastPage } from './plan/AiForecastPage'
 import { ExtracurricularPage } from './plan/ExtracurricularPage'
+import { appPath, withBase } from './basePath'
 import { plan } from './plan/sections'
 import { lastUpdated } from './plan/updated'
 import { TableBlock } from './plan/TableBlock'
@@ -22,7 +23,7 @@ function commentsForLine(comments: Comment[], line: PlanText) {
 }
 
 export default function App() {
-  const [path, setPath] = useState(window.location.pathname)
+  const [path, setPath] = useState(() => appPath())
   const [comments, setComments] = useState<Comment[]>([])
   const [error, setError] = useState<string | null>(null)
 
@@ -40,15 +41,15 @@ export default function App() {
       const anchor = (event.target as HTMLElement).closest('a')
       const href = anchor?.getAttribute('href')
       if (!anchor || !href || anchor.target === '_blank') return
-      const url = new URL(href, window.location.origin)
+      const url = new URL(withBase(href), window.location.origin)
       if (url.origin !== window.location.origin) return
       event.preventDefault()
       window.history.pushState(null, '', url.pathname + url.hash)
-      setPath(url.pathname)
+      setPath(appPath(url.pathname))
       if (url.hash) scrollToAnchor(url.hash)
       else window.scrollTo(0, 0)
     }
-    const onPop = () => setPath(window.location.pathname)
+    const onPop = () => setPath(appPath())
     document.addEventListener('click', onClick)
     window.addEventListener('popstate', onPop)
     return () => {

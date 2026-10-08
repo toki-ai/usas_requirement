@@ -1,8 +1,10 @@
+import { withBase } from '../basePath'
+
 export function AiForecastPage() {
   return (
     <main className="page">
       <div className="doc article">
-        <a className="back" href="/#dong-tien-ai">
+        <a className="back" href={withBase('/#dong-tien-ai')}>
           ← Về bảng dòng tiền
         </a>
         <h1>AI dự báo việc làm và định cư</h1>

@@ -1,8 +1,10 @@
+import { withBase } from '../basePath'
+
 export function ExtracurricularPage() {
   return (
     <main className="page">
       <div className="doc article">
-        <a className="back" href="/#dong-tien-ngoai-khoa">
+        <a className="back" href={withBase('/#dong-tien-ngoai-khoa')}>
           ← Về bảng dòng tiền
         </a>
         <h1>Ngoại khoá: mô hình và giá</h1>

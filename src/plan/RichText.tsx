@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { withBase } from '../basePath'
 
 const linkPattern = /\[\[([^|\]]+)\|([^\]]+)\]\]/g
 
@@ -11,7 +12,7 @@ export function RichText({ text }: { text: string }) {
     const start = match.index ?? 0
     if (start > cursor) parts.push(text.slice(cursor, start))
     parts.push(
-      <a key={`${start}-${href}`} href={href}>
+      <a key={`${start}-${href}`} href={withBase(href)}>
         {label}
       </a>,
     )
