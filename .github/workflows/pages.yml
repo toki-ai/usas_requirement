@@ -8,6 +8,8 @@ permissions:
   contents: read
   pages: write
   id-token: write
+  actions: read
+  administration: write
 
 concurrency:
   group: pages
@@ -18,14 +20,29 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Publish the Vite build instead of the branch source
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api --method PUT "repos/${{ github.repository }}/pages" --input - <<'EOF'
+          {"build_type":"workflow"}
+          EOF
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npm run build
+      - name: Build with the GitHub Pages base path
+        run: npm run build
         env:
           GITHUB_PAGES: 'true'
+      - name: Fail if the page still requests the Vite source entry
+        run: |
+          grep -q '/usas_requirement/assets/' dist/index.html
+          if grep -q '/src/main.tsx' dist/index.html; then
+            echo 'dist/index.html still references /src/main.tsx'
+            exit 1
+          fi
       - run: cp dist/index.html dist/404.html
       - uses: actions/upload-pages-artifact@v3
         with:
@@ -38,5 +55,30 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - name: Deploy after the branch publisher finishes
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          misses=0
+          for i in $(seq 1 40); do
+            status=$(gh api "repos/${{ github.repository }}/actions/runs?head_sha=${{ github.sha }}&per_page=30" \
+              --jq '[.workflow_runs[] | select(.name=="pages build and deployment")][0].status // "none"')
+            echo "branch pages status: ${status}"
+            case "${status}" in
+              queued|in_progress|waiting|pending|requested)
+                misses=0
+                ;;
+              completed)
+                break
+                ;;
+              none)
+                misses=$((misses + 1))
+                if [ "${misses}" -ge 3 ]; then
+                  break
+                fi
+                ;;
+            esac
+            sleep 15
+          done
       - id: deployment
         uses: actions/deploy-pages@v4
