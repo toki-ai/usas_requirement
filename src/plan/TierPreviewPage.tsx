@@ -222,7 +222,7 @@ function PremiumDashboard() {
         </Card>
         <Card title="Coin trong gói" note="U18 · 9.900 coin, đổi từ 33 giờ">
           <p>
-            Còn <b>5.400 coin</b>. Đã dùng 4.500 coin cho 12 lớp với Tutor cấp Premium. Hết hạn cùng gói.
+            Còn <b>5.400 coin</b>. Đã dùng 4.500 coin cho 12 lớp Tutor. Hết hạn cùng gói.
           </p>
           <span className="tp-link">Đặt lớp Documents</span>
         </Card>
@@ -300,6 +300,9 @@ function JourneyScreen({ tier }: { tier: Tier }) {
               <Card title="Kiểm tra">
                 <p>Bạn tự đánh dấu xong. Không ai chấm.</p>
               </Card>
+              <Card title="Mua lượt chấm" note="Tương lai" tone="locked">
+                <p>Người chấm là AI hay mentor chưa chốt.</p>
+              </Card>
               <Card title="Cần người tư vấn?">
                 <span className="tp-link">Hẹn tư vấn 15 phút</span>
               </Card>
@@ -314,6 +317,9 @@ function JourneyScreen({ tier }: { tier: Tier }) {
                 <p>Gửi nháp ML để AI so với learning outcome của chương trình.</p>
                 <span className="tp-link">Góp ý bản nháp</span>
               </Card>
+              <Card title="Lượt chấm giới hạn" note="Tương lai" tone="locked">
+                <p>Người chấm là AI hay mentor chưa chốt.</p>
+              </Card>
               <Card title="Sửa với người thật">
                 <p>Tutor sửa essay · 250–600 coin / 90 phút.</p>
               </Card>
@@ -327,6 +333,7 @@ function JourneyScreen({ tier }: { tier: Tier }) {
               </Card>
               <Card title="Điểm chốt">
                 <p>Bước 5 cần mentor chính và mentor phụ cùng xem trước khi nộp.</p>
+                <p className="tp-muted">“Chưa đạt” chặn bước sau ở bước 2, 3, 5, 6. Bước 4 chỉ cảnh báo.</p>
               </Card>
               <Card title="Lớp gợi ý">
                 <p>Documents thực hành · dùng coin trong gói.</p>
@@ -336,6 +343,55 @@ function JourneyScreen({ tier }: { tier: Tier }) {
         </aside>
       </div>
     </>
+  )
+}
+
+const roleToggle = [
+  { id: 'free', label: 'Free' },
+  { id: 'pro', label: 'Pro' },
+  { id: 'premium', label: 'Premium' },
+] as const
+
+function ScreenMock({ tier, screen }: { tier: Tier; screen: Screen }) {
+  return (
+    <Frame tier={tier} screen={screen}>
+      {screen === 'journey' ? (
+        <JourneyScreen tier={tier} />
+      ) : tier === 'free' ? (
+        <FreeDashboard />
+      ) : tier === 'pro' ? (
+        <ProDashboard />
+      ) : (
+        <PremiumDashboard />
+      )}
+    </Frame>
+  )
+}
+
+export function TierScreen({ screen }: { screen: Screen }) {
+  const [tier, setTier] = useState<Tier>('free')
+  const title = screen === 'dashboard' ? 'Dashboard' : 'Journey'
+
+  return (
+    <div className="tier-screen" data-screen={screen} data-tier={tier}>
+      <div className="tp-controls">
+        <div role="tablist" aria-label={`${title} role`}>
+          {roleToggle.map((role) => (
+            <button
+              key={role.id}
+              type="button"
+              role="tab"
+              aria-selected={tier === role.id}
+              className={tier === role.id ? 'on' : undefined}
+              onClick={() => setTier(role.id)}
+            >
+              {role.label}
+            </button>
+          ))}
+        </div>
+      </div>
+      <ScreenMock tier={tier} screen={screen} />
+    </div>
   )
 }
 
@@ -367,17 +423,7 @@ export function TierUiPreview() {
         </div>
       </div>
 
-      <Frame tier={tier} screen={screen}>
-        {screen === 'journey' ? (
-          <JourneyScreen tier={tier} />
-        ) : tier === 'free' ? (
-          <FreeDashboard />
-        ) : tier === 'pro' ? (
-          <ProDashboard />
-        ) : (
-          <PremiumDashboard />
-        )}
-      </Frame>
+      <ScreenMock tier={tier} screen={screen} />
     </>
   )
 }
@@ -388,7 +434,7 @@ export function TierPreviewPage() {
       <TableOfContents items={toc} />
       <div className="doc article tp-doc">
         <a className="back" href={withBase('/#goi-ba-tier')}>
-          ← Về 3 tier chính của student
+          ← Về Student journey
         </a>
         <h1 id="tier-preview">Benefit 3 gói và UI preview</h1>
         <p className="lead">
@@ -437,8 +483,8 @@ export function TierPreviewPage() {
             email, Zalo hay push còn là câu hỏi mở trong plan.
           </li>
           <li>
-            <strong>Coin trong package đã có tỷ lệ.</strong> 1 giờ trên brochure = 300 coin, theo giá buổi 60 phút của Tutor
-            cấp Premium. U3 3.600, U9 6.300, U18 9.900, U27 12.900 coin, U30 cấp 25.000 coin và nạp thêm khi mentor đề xuất.
+            <strong>Coin trong package đã có tỷ lệ.</strong> 1 giờ trên brochure = 300 coin, theo nửa trên khung giá buổi 60 phút
+            của Tutor. U3 3.600, U9 6.300, U18 9.900, U27 12.900 coin, U30 cấp 25.000 coin.
             Chi tiết ở <a href={withBase('/he-thong-coin')}>Hệ thống coin</a>.
           </li>
         </ol>

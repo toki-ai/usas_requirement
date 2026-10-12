@@ -12,17 +12,21 @@ function NoteCard({
   note,
   sectionId,
   comments,
+  showBadge = true,
 }: {
   note: PlanNote
   sectionId: string
   comments: Comment[]
+  showBadge?: boolean
 }) {
   const [body, setBody] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [saving, setSaving] = useState(false)
   const [composing, setComposing] = useState(false)
+  const [commentFocused, setCommentFocused] = useState(false)
   const thread = comments.filter((comment) => comment.anchorId === note.id)
   const visibleCount = thread.filter((comment) => comment.status !== 'deleted').length
+  const hasOpenComment = thread.some((comment) => comment.parentId == null && comment.status === 'open')
   const showThread = visibleCount > 0 || composing || error !== null
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
@@ -47,13 +51,17 @@ function NoteCard({
   }
 
   return (
-    <article className={note.departments ? 'note-card wide' : 'note-card'} id={note.id} data-line-id={note.id}>
+    <article
+      className={`${note.departments ? 'note-card wide' : 'note-card'}${commentFocused ? ' comment-focused' : ''}`}
+      id={note.id}
+      data-line-id={note.id}
+    >
       <header>
         <h3>{note.title}</h3>
-        {note.badge && <span className="note-badge">{note.badge}</span>}
+        {showBadge && note.badge && <span className="note-badge">{note.badge}</span>}
         <button
           type="button"
-          className="add-comment"
+          className={hasOpenComment ? 'add-comment has-open-comment' : 'add-comment'}
           aria-label={`Add comment on ${note.title}`}
           aria-expanded={composing}
           onClick={() => setComposing((open) => !open)}
@@ -75,11 +83,29 @@ function NoteCard({
           </svg>
         </button>
       </header>
-      <ul>
-        {note.items.map((item) => (
-          <li key={item}>{item}</li>
-        ))}
-      </ul>
+      {note.items.length > 0 && (
+        <ul>
+          {note.items.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+      )}
+      {note.warning && (
+        <p className="note-warning">
+          <svg viewBox="0 0 20 20" aria-hidden="true">
+            <path
+              d="M10 1.8 18.4 17.2H1.6L10 1.8Z"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinejoin="round"
+            />
+            <path d="M10 7.2v4.3" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+            <circle cx="10" cy="14.3" r="0.75" fill="currentColor" />
+          </svg>
+          <span>{note.warning}</span>
+        </p>
+      )}
       {note.departments && (
         <div className="departments">
           {note.departments.map((department) => (
@@ -96,7 +122,7 @@ function NoteCard({
       )}
       {showThread && (
         <div className="note-comments">
-          <CommentThread comments={thread} />
+          <CommentThread comments={thread} onFocusChange={setCommentFocused} />
           {composing && (
             <form className="comment-card composer" onSubmit={onSubmit}>
               <textarea
@@ -122,9 +148,15 @@ function NoteCard({
 export function NoteGrid({ block, comments }: NoteGridProps) {
   return (
     <div className="line notes-line">
-      <div className="note-grid">
+      <div className={block.sectionId === 'vai-tro' ? 'note-grid note-grid-roles' : 'note-grid'}>
         {block.notes.map((note) => (
-          <NoteCard key={note.id} note={note} sectionId={block.sectionId} comments={comments} />
+          <NoteCard
+            key={note.id}
+            note={note}
+            sectionId={block.sectionId}
+            comments={comments}
+            showBadge={block.sectionId !== 'vai-tro'}
+          />
         ))}
       </div>
       <div />

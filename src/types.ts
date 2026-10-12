@@ -12,13 +12,14 @@ export type PlanTable = {
   sectionId: string
   kind: 'table'
   columns: string[]
-  rows: { id: string; cells: string[] }[]
+  rows: { id: string; cells: string[]; details?: { id: string; cells: string[] }[] }[]
 }
 
 export type PlanNote = {
   id: string
   title: string
   badge?: string
+  warning?: string
   items: string[]
   departments?: { name: string; items: string[] }[]
 }
@@ -48,6 +49,9 @@ export type RoadmapStep = {
   checker: string
   unlock: string
   handbook: string
+  free: string
+  pro: string
+  premium: string
 }
 
 export type RoadmapStage = {
@@ -62,7 +66,6 @@ export type PlanRoadmap = {
   id: string
   sectionId: string
   kind: 'roadmap'
-  stats: { value: string; label: string }[]
   axis: { from: number; to: number; bay: number; note: string }
   stages: RoadmapStage[]
 }

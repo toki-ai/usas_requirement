@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react'
+import { useState, type FormEvent, type ReactNode } from 'react'
 import { addComment } from '../firebase/comments'
 import type { Comment, PlanText } from '../types'
 import { CommentThread } from './CommentThread'
@@ -8,14 +8,23 @@ type LineRowProps = {
   line: PlanText
   comments: Comment[]
   cells?: string[]
+  toggle?: {
+    expanded: boolean
+    label: string
+    onToggle: () => void
+  }
+  below?: ReactNode
+  screen?: boolean
 }
 
-export function LineRow({ line, comments, cells }: LineRowProps) {
+export function LineRow({ line, comments, cells, toggle, below, screen }: LineRowProps) {
   const [body, setBody] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [saving, setSaving] = useState(false)
   const [composing, setComposing] = useState(false)
+  const [commentFocused, setCommentFocused] = useState(false)
   const visibleCount = comments.filter((comment) => comment.status !== 'deleted').length
+  const hasOpenComment = comments.some((comment) => comment.parentId == null && comment.status === 'open')
   const showThread = visibleCount > 0 || composing || error !== null
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
@@ -39,25 +48,59 @@ export function LineRow({ line, comments, cells }: LineRowProps) {
     }
   }
 
-  return (
-    <div className={`line ${line.kind}`} data-section-id={line.sectionId} data-line-id={line.id} id={line.id}>
+  const headingLevel =
+    line.kind === 'heading' ? (/^\d+\./.test(line.text) ? 'heading-main' : 'heading-sub') : ''
+
+  const lineBody = (
       <div className="line-body">
         {cells ? (
           <div className="cells">
             {cells.map((cell, index) => (
-              <span key={index}>
-                <RichText text={cell} />
+              <span key={index} className={index === 0 && toggle ? 'cell-with-toggle' : undefined}>
+                {index === 0 && toggle ? (
+                  <button
+                    type="button"
+                    className="row-toggle"
+                    aria-expanded={toggle.expanded}
+                    aria-label={toggle.label}
+                    onClick={toggle.onToggle}
+                  >
+                    <svg viewBox="0 0 20 20" aria-hidden="true">
+                      <path
+                        d="M7.5 5.2 12.3 10 7.5 14.8"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.6"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </button>
+                ) : null}
+                {index === 0 && toggle ? (
+                  <span className="cell-copy">
+                    <RichText text={cell} />
+                  </span>
+                ) : (
+                  <RichText text={cell} />
+                )}
               </span>
             ))}
           </div>
         ) : (
           <div className="line-copy">
-            {line.kind === 'heading' ? <h2>{line.text}</h2> : <p><RichText text={line.text} /></p>}
+            {line.kind === 'heading' ? (
+              <h2>{line.text}</h2>
+            ) : screen ? (
+              <h3 className="screen-title">{line.text}</h3>
+            ) : (
+              <p><RichText text={line.text} /></p>
+            )}
           </div>
         )}
         <button
           type="button"
-          className="add-comment"
+          className={hasOpenComment ? 'add-comment has-open-comment' : 'add-comment'}
           aria-label={`Add comment on ${cells?.[0] ?? line.text}`}
           aria-expanded={composing}
           onClick={() => setComposing((open) => !open)}
@@ -79,11 +122,28 @@ export function LineRow({ line, comments, cells }: LineRowProps) {
           </svg>
         </button>
       </div>
+  )
+
+  return (
+    <div
+      className={`line ${line.kind}${headingLevel ? ` ${headingLevel}` : ''}${screen ? ' screen-line' : ''}${commentFocused ? ' comment-focused' : ''}`}
+      data-section-id={line.sectionId}
+      data-line-id={line.id}
+      id={line.id}
+    >
+      {below ? (
+        <div className="line-stack">
+          {lineBody}
+          <div className="line-below">{below}</div>
+        </div>
+      ) : (
+        lineBody
+      )}
 
       <div className="line-comments">
         {showThread && (
           <>
-            <CommentThread comments={comments} />
+            <CommentThread comments={comments} onFocusChange={setCommentFocused} />
 
             {composing && (
               <form className="comment-card composer" onSubmit={onSubmit}>

@@ -14,7 +14,7 @@ export const coinSystem: { title: string; lines: Array<PlanText | PlanTable> } =
       id: 'coin-nguon',
       sectionId: 'coin',
       kind: 'heading',
-      text: 'Coin đến từ đâu',
+      text: 'a. Coin đến từ đâu',
     },
     {
       id: 'coin-nguon-bang',
@@ -25,7 +25,7 @@ export const coinSystem: { title: string; lines: Array<PlanText | PlanTable> } =
         { id: 'coin-mua-le', cells: ['Mua lẻ', '100 coin = 99k · 300 = 269k · 1.000 = 799k', '12 tháng'] },
         { id: 'coin-nhiem-vu', cells: ['Nhiệm vụ (Free)', 'Tối đa 50 coin / tháng', '60 ngày'] },
         { id: 'coin-pro', cells: ['Kèm theo Pro', '1.000 coin', 'Hết hạn cùng Pro'] },
-        { id: 'coin-trong-goi', cells: ['Có sẵn trong package trọn gói', 'Đổi từ giờ học của gói, 1 giờ = 300 coin: U3 3.600 coin (12 giờ) · U9 6.300 (21 giờ) · U18 9.900 (33 giờ) · U27 12.900 (43 giờ) · U30 25.000, nạp thêm khi mentor đề xuất', 'Hết hạn cùng gói'] },
+        { id: 'coin-trong-goi', cells: ['Có sẵn trong package trọn gói', 'Đổi từ giờ học của gói, 1 giờ = 300 coin: U3 3.600 coin (12 giờ) · U9 6.300 (21 giờ) · U18 9.900 (33 giờ) · U27 12.900 (43 giờ) · U30 25.000', 'Hết hạn cùng gói'] },
         { id: 'coin-gioi-thieu', cells: ['Thưởng mời bạn', 'Khi người được mời mua gói đầu tiên', '60 ngày'] },
       ],
     },
@@ -33,7 +33,7 @@ export const coinSystem: { title: string; lines: Array<PlanText | PlanTable> } =
       id: 'coin-dung',
       sectionId: 'coin',
       kind: 'heading',
-      text: 'Coin dùng vào đâu',
+      text: 'b. Coin dùng vào đâu',
     },
     {
       id: 'coin-dung-bang',
@@ -55,13 +55,13 @@ export const coinSystem: { title: string; lines: Array<PlanText | PlanTable> } =
       id: 'coin-doi-gio',
       sectionId: 'coin',
       kind: 'heading',
-      text: 'Đổi giờ học trong package sang coin',
+      text: 'c. Đổi giờ học trong package sang coin',
     },
     {
       id: 'coin-doi-gio-luat',
       sectionId: 'coin',
       kind: 'text',
-      text: 'Luật đổi: 1 giờ trên brochure = 300 coin. Coin trong package chỉ trả được cho Tutor cấp Premium, mà buổi 60 phút có khung 150–400 coin, nên một giờ của Tutor cấp Premium lấy ở nửa trên khung, khoảng 300 coin. Buổi 90 phút sửa essay ở mức này khoảng 450 coin, tức 1,5 giờ. Không đổi giá hay nội dung package, chỉ đổi giờ thành coin. Coin trong package hết hạn cùng gói.',
+      text: 'Luật đổi: 1 giờ trên brochure = 300 coin. Lớp kỹ năng của Tutor luôn trả bằng coin, kể cả lớp do mentor mở trên hồ sơ Tutor, và coin trong package được tính như coin thường để trả các lớp này. Buổi 60 phút có khung 150–400 coin, nên một giờ lấy ở nửa trên khung, khoảng 300 coin. Buổi 90 phút sửa essay ở mức này khoảng 450 coin, tức 1,5 giờ. Không đổi giá hay nội dung package, chỉ đổi giờ thành coin. Coin trong package hết hạn cùng gói.',
     },
     {
       id: 'coin-doi-gio-bang',
@@ -73,7 +73,7 @@ export const coinSystem: { title: string; lines: Array<PlanText | PlanTable> } =
         { id: 'coin-doi-u9', cells: ['U9 · 69.800.000đ', '21 giờ', '6.300 coin', '≈ 9%'] },
         { id: 'coin-doi-u18', cells: ['U18 · 97.800.000đ', '33 giờ', '9.900 coin', '≈ 10%'] },
         { id: 'coin-doi-u27', cells: ['U27 · 150.800.000đ', '43 giờ', '12.900 coin', '≈ 8,6%'] },
-        { id: 'coin-doi-u30', cells: ['U30 · 297.800.000đ', 'Không giới hạn', '25.000 coin, nạp thêm khi mentor đề xuất', '≈ 8,4%'] },
+        { id: 'coin-doi-u30', cells: ['U30 · 297.800.000đ', 'Không giới hạn', '25.000 coin', '≈ 8,4%'] },
       ],
     },
     {
@@ -86,7 +86,7 @@ export const coinSystem: { title: string; lines: Array<PlanText | PlanTable> } =
       id: 'coin-doi-gio-u30',
       sectionId: 'coin',
       kind: 'text',
-      text: 'U30 không ghi coin không giới hạn, vì ví không có trần thì không đối soát được chi cho Tutor và dễ bị lạm dụng. Cấp sẵn 25.000 coin, khoảng 83 giờ, gần gấp đôi U27, và giữ tỷ lệ khoảng 8% giá gói như U27. Khi gần hết, mentor đề xuất nạp thêm theo nhu cầu thật của học sinh, admin duyệt từng đợt. Như vậy vẫn giữ đúng lời hứa không giới hạn giờ trên brochure.',
+      text: 'U30 không ghi coin không giới hạn, vì ví không có trần thì không đối soát được chi cho Tutor và dễ bị lạm dụng. Cấp sẵn 25.000 coin, khoảng 83 giờ, gần gấp đôi U27, và giữ tỷ lệ khoảng 8% giá gói như U27.',
     },
     {
       id: 'coin-ai-mo-ta',

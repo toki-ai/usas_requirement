@@ -8,6 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "check:updated": "node scripts/check-last-updated.mjs",
+    "check:flows": "node scripts/validate-flows.mjs",
     "preview": "vite preview"
   },
   "dependencies": {

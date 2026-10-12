@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type CSSProperties, type FormEvent } from 'react'
+import { useEffect, useMemo, useState, type FormEvent } from 'react'
 import { addComment } from '../firebase/comments'
 import type { Comment, PlanRoadmap, RoadmapStage, RoadmapStep } from '../types'
 import { CommentThread } from './CommentThread'
@@ -26,11 +26,13 @@ function StepDetail({
   step,
   stage,
   composing,
+  hasOpenComment,
   onToggleComment,
 }: {
   step: RoadmapStep
   stage: RoadmapStage
   composing: boolean
+  hasOpenComment: boolean
   onToggleComment: () => void
 }) {
   const fields: [string, string][] = [
@@ -53,7 +55,7 @@ function StepDetail({
         </div>
         <button
           type="button"
-          className="add-comment"
+          className={hasOpenComment ? 'add-comment has-open-comment' : 'add-comment'}
           aria-label={`Add comment on ${stepLabel(step)}`}
           aria-expanded={composing}
           onClick={onToggleComment}
@@ -101,6 +103,18 @@ function StepDetail({
             <dd>{value}</dd>
           </div>
         ))}
+        {(
+          [
+            ['Free', step.free, 'roadmap-tier start'],
+            ['Pro', step.pro, 'roadmap-tier'],
+            ['Premium', step.premium, 'roadmap-tier'],
+          ] as const
+        ).map(([term, value, className]) => (
+          <div key={term} className={className}>
+            <dt>{term}</dt>
+            <dd>{value}</dd>
+          </div>
+        ))}
       </dl>
     </article>
   )
@@ -117,9 +131,11 @@ export function JourneyRoadmap({ block, comments }: JourneyRoadmapProps) {
   const [error, setError] = useState<string | null>(null)
   const [saving, setSaving] = useState(false)
   const [composing, setComposing] = useState(false)
+  const [commentFocused, setCommentFocused] = useState(false)
   const active = steps.find((item) => item.step.id === activeId) ?? steps[0]
   const thread = commentsForStep(comments, active?.step.id ?? '')
   const visibleCount = thread.filter((comment) => comment.status !== 'deleted').length
+  const hasOpenComment = thread.some((comment) => comment.parentId == null && comment.status === 'open')
   const showThread = visibleCount > 0 || composing || error !== null
   const { from, to, bay, note } = block.axis
   const span = to - from
@@ -165,48 +181,13 @@ export function JourneyRoadmap({ block, comments }: JourneyRoadmapProps) {
   if (!active) return null
 
   return (
-    <div className="line roadmap-line" id={block.id} data-section-id={block.sectionId} data-line-id={active.step.id}>
+    <div
+      className={`line roadmap-line${commentFocused ? ' comment-focused' : ''}`}
+      id={block.id}
+      data-section-id={block.sectionId}
+      data-line-id={active.step.id}
+    >
       <div className="roadmap">
-        <div className="roadmap-stats">
-          {block.stats.map((stat) => (
-            <div key={stat.value}>
-              <strong>{stat.value}</strong>
-              <span>{stat.label}</span>
-            </div>
-          ))}
-        </div>
-
-        <h3 className="roadmap-title">Cấu trúc journey</h3>
-        <div className="roadmap-stages">
-          {block.stages.map((stage) => (
-            <section
-              key={stage.id}
-              className={`roadmap-stage ${stage.tone}`}
-              style={{ '--steps': stage.steps.length } as CSSProperties}
-            >
-              <header>
-                <strong>{stage.name}</strong>
-                <span>{stage.opens}</span>
-              </header>
-              <ol>
-                {stage.steps.map((step) => (
-                  <li key={step.id}>
-                    <button
-                      type="button"
-                      className={step.id === active.step.id ? 'active' : undefined}
-                      aria-current={step.id === active.step.id ? 'step' : undefined}
-                      onClick={() => selectStep(step.id)}
-                    >
-                      <span>{step.number}</span>
-                      {step.name}
-                    </button>
-                  </li>
-                ))}
-              </ol>
-            </section>
-          ))}
-        </div>
-
         <h3 className="roadmap-title">Dòng thời gian</h3>
         <div className="roadmap-timeline">
           <div className="roadmap-timeline-inner">
@@ -238,6 +219,14 @@ export function JourneyRoadmap({ block, comments }: JourneyRoadmapProps) {
                 </div>
               </button>
             ))}
+            <ul className="roadmap-legend" aria-label="Màu chặng">
+              {block.stages.map((stage) => (
+                <li key={stage.id}>
+                  <i className={stage.tone} />
+                  {stage.name}
+                </li>
+              ))}
+            </ul>
             <p className="roadmap-note">{note}</p>
           </div>
         </div>
@@ -265,6 +254,7 @@ export function JourneyRoadmap({ block, comments }: JourneyRoadmapProps) {
           step={active.step}
           stage={active.stage}
           composing={composing}
+          hasOpenComment={hasOpenComment}
           onToggleComment={() => setComposing((open) => !open)}
         />
       </div>
@@ -272,7 +262,7 @@ export function JourneyRoadmap({ block, comments }: JourneyRoadmapProps) {
       <div className="line-comments">
         {showThread && (
           <>
-            <CommentThread comments={thread} />
+            <CommentThread comments={thread} onFocusChange={setCommentFocused} />
             {composing && (
               <form className="comment-card composer" onSubmit={onSubmit}>
                 <textarea
