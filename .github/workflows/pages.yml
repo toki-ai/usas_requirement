@@ -9,7 +9,6 @@ permissions:
   pages: write
   id-token: write
   actions: read
-  administration: write
 
 concurrency:
   group: pages
@@ -20,13 +19,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Publish the Vite build instead of the branch source
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          gh api --method PUT "repos/${{ github.repository }}/pages" --input - <<'EOF'
-          {"build_type":"workflow"}
-          EOF
       - uses: actions/setup-node@v4
         with:
           node-version: 22
