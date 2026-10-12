@@ -1,14 +1,30 @@
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { subscribeToComments } from './firebase/comments'
 import { LineRow } from './plan/LineRow'
 import { NoteGrid } from './plan/NoteGrid'
+import { JourneyRoadmap } from './plan/JourneyRoadmap'
 import { AiForecastPage } from './plan/AiForecastPage'
 import { ExtracurricularPage } from './plan/ExtracurricularPage'
+import { CoinPackPage } from './plan/CoinPackPage'
+import { CoinSystemPage } from './plan/CoinSystemPage'
+import { PackagePage } from './plan/PackagePage'
+import { TierPreviewPage, TierUiPreview } from './plan/TierPreviewPage'
 import { appPath, withBase } from './basePath'
 import { plan } from './plan/sections'
 import { lastUpdated } from './plan/updated'
+import { TableOfContents, type TocItem } from './plan/TableOfContents'
 import { TableBlock } from './plan/TableBlock'
-import type { Comment, PlanText } from './types'
+import type { Comment, PlanBlock, PlanText } from './types'
+
+function isHeading(block: PlanBlock): block is PlanText {
+  return block.kind === 'heading'
+}
+
+const planToc: TocItem[] = plan.lines.filter(isHeading).map((heading) => ({
+  id: heading.id,
+  label: heading.text,
+  depth: /^\d+\./.test(heading.text) ? 0 : 1,
+}))
 
 function scrollToAnchor(hash: string) {
   const target = document.getElementById(decodeURIComponent(hash.slice(1)))
@@ -60,9 +76,14 @@ export default function App() {
 
   if (path === '/ai-du-bao') return <AiForecastPage />
   if (path === '/ngoai-khoa') return <ExtracurricularPage />
+  if (path === '/package-tron-goi') return <PackagePage />
+  if (path === '/goi-coin') return <CoinPackPage />
+  if (path === '/he-thong-coin') return <CoinSystemPage comments={comments} />
+  if (path === '/tier-preview') return <TierPreviewPage />
 
   return (
-    <main className="page">
+    <main className="page has-toc">
+      <TableOfContents items={planToc} />
       <div className="doc">
         <header className="page-head">
           <div>
@@ -74,15 +95,25 @@ export default function App() {
           </div>
         </header>
         {error && <p className="error">{error}</p>}
-        {plan.lines.map((block) =>
-          block.kind === 'table' ? (
-            <TableBlock key={block.id} table={block} comments={comments} />
-          ) : block.kind === 'notes' ? (
-            <NoteGrid key={block.id} block={block} comments={comments} />
-          ) : (
-            <LineRow key={block.id} line={block} comments={commentsForLine(comments, block)} />
-          ),
-        )}
+        {plan.lines.map((block) => {
+          if (block.kind === 'table') {
+            const fullWidth = block.id === 'goi-bang'
+            return (
+              <Fragment key={block.id}>
+                <TableBlock table={block} comments={comments} fullWidth={fullWidth} />
+                {fullWidth && (
+                  <section className="tier-ui-preview" aria-label="UI preview">
+                    <h3>UI preview</h3>
+                    <TierUiPreview />
+                  </section>
+                )}
+              </Fragment>
+            )
+          }
+          if (block.kind === 'notes') return <NoteGrid key={block.id} block={block} comments={comments} />
+          if (block.kind === 'roadmap') return <JourneyRoadmap key={block.id} block={block} comments={comments} />
+          return <LineRow key={block.id} line={block} comments={commentsForLine(comments, block)} />
+        })}
       </div>
     </main>
   )

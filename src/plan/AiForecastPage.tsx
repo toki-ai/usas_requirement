@@ -1,19 +1,29 @@
 import { withBase } from '../basePath'
+import { TableOfContents } from './TableOfContents'
+
+const toc = [
+  { id: 'ai-du-bao', label: 'AI dự báo việc làm và định cư' },
+  { id: 'vi-sao-150', label: 'Vì sao giữ 150 coin' },
+  { id: 'thiet-ke-goi', label: 'Thiết kế gói mua' },
+  { id: 'ba-con-so', label: 'Ba con số cần đổi cách gọi' },
+  { id: 'giu-chi-phi', label: 'Giữ chi phí AI thấp' },
+] as const
 
 export function AiForecastPage() {
   return (
-    <main className="page">
+    <main className="page has-toc">
+      <TableOfContents items={toc} />
       <div className="doc article">
         <a className="back" href={withBase('/#dong-tien-ai')}>
           ← Về bảng dòng tiền
         </a>
-        <h1>AI dự báo việc làm và định cư</h1>
+        <h1 id="ai-du-bao">AI dự báo việc làm và định cư</h1>
         <p className="lead">
           AI đọc hồ sơ và mục tiêu apply của học sinh, dự đoán CV sau khi học xong, đối chiếu với JD thật đang tuyển,
           rồi tính mức khớp với JD, khả năng có việc và điều kiện ở lại.
         </p>
 
-        <h2>Vì sao giữ 150 coin (150k)</h2>
+        <h2 id="vi-sao-150">Vì sao giữ 150 coin (150k)</h2>
         <h3>Chi phí của mình thấp</h3>
         <ul>
           <li>Dự đoán CV và chấm khớp với khoảng 20–50 JD tốn khoảng 5–20k token cho mỗi báo cáo.</li>
@@ -32,7 +42,7 @@ export function AiForecastPage() {
           300 coin (269k), sau đó còn dư 150 coin, vừa đủ cho báo cáo thứ hai. Dư coin là lý do để họ quay lại.
         </p>
 
-        <h2>Thiết kế gói mua</h2>
+        <h2 id="thiet-ke-goi">Thiết kế gói mua</h2>
         <div className="article-table">
           <table>
             <thead>
@@ -86,7 +96,7 @@ export function AiForecastPage() {
           vấn 15 phút”.
         </p>
 
-        <h2>Ba con số cần đổi cách gọi</h2>
+        <h2 id="ba-con-so">Ba con số cần đổi cách gọi</h2>
         <ol>
           <li>
             <strong>“% apply thành công” nên gọi là “Mức khớp với JD”.</strong> Con số này chỉ cho biết CV dự kiến đáp
@@ -105,7 +115,7 @@ export function AiForecastPage() {
           </li>
         </ol>
 
-        <h2>Giữ chi phí AI thấp</h2>
+        <h2 id="giu-chi-phi">Giữ chi phí AI thấp</h2>
         <ul>
           <li>JD được lấy và lưu theo cặp quốc gia và ngành, làm mới mỗi tháng. Báo cáo chỉ đọc từ kho này.</li>
           <li>

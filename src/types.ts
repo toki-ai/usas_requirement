@@ -30,7 +30,44 @@ export type PlanNotes = {
   notes: PlanNote[]
 }
 
-export type PlanBlock = PlanText | PlanTable | PlanNotes
+export type RoadmapAssignment = {
+  text: string
+  format: string
+}
+
+export type RoadmapStep = {
+  id: string
+  number: string
+  name: string
+  window: [number, number]
+  goal: string
+  does: string
+  output: string
+  assignments: RoadmapAssignment[]
+  timing: string
+  checker: string
+  unlock: string
+  handbook: string
+}
+
+export type RoadmapStage = {
+  id: string
+  name: string
+  opens: string
+  tone: 'apply' | 'depart' | 'settle'
+  steps: RoadmapStep[]
+}
+
+export type PlanRoadmap = {
+  id: string
+  sectionId: string
+  kind: 'roadmap'
+  stats: { value: string; label: string }[]
+  axis: { from: number; to: number; bay: number; note: string }
+  stages: RoadmapStage[]
+}
+
+export type PlanBlock = PlanText | PlanTable | PlanNotes | PlanRoadmap
 
 export type Comment = {
   id: string

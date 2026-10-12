@@ -1,0 +1,148 @@
+import type { PlanTable, PlanText } from '../types'
+
+export const coinSystem: { title: string; lines: Array<PlanText | PlanTable> } = {
+  title: '4. Hệ thống coin',
+  lines: [
+    { id: 'coin', sectionId: 'coin', kind: 'heading', text: '4. Hệ thống coin' },
+    {
+      id: 'coin-dinh-nghia',
+      sectionId: 'coin',
+      kind: 'text',
+      text: '1 coin = 1.000đ để học sinh dễ quy đổi. Coin miễn phí phải có trần và hạn dùng. Nếu không dùng sẽ mất giá và không ai mua coin.',
+    },
+    {
+      id: 'coin-nguon',
+      sectionId: 'coin',
+      kind: 'heading',
+      text: 'Coin đến từ đâu',
+    },
+    {
+      id: 'coin-nguon-bang',
+      sectionId: 'coin',
+      kind: 'table',
+      columns: ['Nguồn', 'Số lượng', 'Hạn dùng'],
+      rows: [
+        { id: 'coin-mua-le', cells: ['Mua lẻ', '100 coin = 99k · 300 = 269k · 1.000 = 799k', '12 tháng'] },
+        { id: 'coin-nhiem-vu', cells: ['Nhiệm vụ (Free)', 'Tối đa 50 coin / tháng', '60 ngày'] },
+        { id: 'coin-pro', cells: ['Kèm theo Pro', '1.000 coin', 'Hết hạn cùng Pro'] },
+        { id: 'coin-trong-goi', cells: ['Có sẵn trong package trọn gói', 'Đổi từ giờ học của gói, 1 giờ = 300 coin: U3 3.600 coin (12 giờ) · U9 6.300 (21 giờ) · U18 9.900 (33 giờ) · U27 12.900 (43 giờ) · U30 25.000, nạp thêm khi mentor đề xuất', 'Hết hạn cùng gói'] },
+        { id: 'coin-gioi-thieu', cells: ['Thưởng mời bạn', 'Khi người được mời mua gói đầu tiên', '60 ngày'] },
+      ],
+    },
+    {
+      id: 'coin-dung',
+      sectionId: 'coin',
+      kind: 'heading',
+      text: 'Coin dùng vào đâu',
+    },
+    {
+      id: 'coin-dung-bang',
+      sectionId: 'coin',
+      kind: 'table',
+      columns: ['Dùng cho', 'Giá'],
+      rows: [
+        { id: 'coin-lop-60', cells: ['Buổi học Tutor 60 phút', '150 – 400 coin (Tutor tự đặt trong khung)'] },
+        { id: 'coin-lop-90', cells: ['Buổi học 90 phút (essay, chọn trường)', '250 – 600 coin'] },
+        { id: 'coin-combo', cells: ['Combo 4–6 buổi', 'Giảm 15% so với đặt lẻ'] },
+        { id: 'coin-ngoai-khoa', cells: ['Gói ngoại khóa cá nhân, vai tình nguyện viên', '700 coin'] },
+        { id: 'coin-match', cells: ['Mở match % 1 học bổng (Free)', '5 coin'] },
+        { id: 'coin-bao-cao', cells: ['Báo cáo AI dự báo việc làm (1 trường · 1 ngành)', '150 coin'] },
+        { id: 'coin-so-sanh', cells: ['So sánh dự báo 3 trường', '350 coin'] },
+        { id: 'coin-cap-nhat', cells: ['Cập nhật báo cáo khi hồ sơ thay đổi', '50 coin'] },
+      ],
+    },
+    {
+      id: 'coin-doi-gio',
+      sectionId: 'coin',
+      kind: 'heading',
+      text: 'Đổi giờ học trong package sang coin',
+    },
+    {
+      id: 'coin-doi-gio-luat',
+      sectionId: 'coin',
+      kind: 'text',
+      text: 'Luật đổi: 1 giờ trên brochure = 300 coin. Coin trong package chỉ trả được cho Tutor cấp Premium, mà buổi 60 phút có khung 150–400 coin, nên một giờ của Tutor cấp Premium lấy ở nửa trên khung, khoảng 300 coin. Buổi 90 phút sửa essay ở mức này khoảng 450 coin, tức 1,5 giờ. Không đổi giá hay nội dung package, chỉ đổi giờ thành coin. Coin trong package hết hạn cùng gói.',
+    },
+    {
+      id: 'coin-doi-gio-bang',
+      sectionId: 'coin',
+      kind: 'table',
+      columns: ['Package', 'Giờ trên brochure', 'Coin', '≈ % giá package'],
+      rows: [
+        { id: 'coin-doi-u3', cells: ['U3 · 52.690.000đ', '12 giờ', '3.600 coin', '≈ 7%'] },
+        { id: 'coin-doi-u9', cells: ['U9 · 69.800.000đ', '21 giờ', '6.300 coin', '≈ 9%'] },
+        { id: 'coin-doi-u18', cells: ['U18 · 97.800.000đ', '33 giờ', '9.900 coin', '≈ 10%'] },
+        { id: 'coin-doi-u27', cells: ['U27 · 150.800.000đ', '43 giờ', '12.900 coin', '≈ 8,6%'] },
+        { id: 'coin-doi-u30', cells: ['U30 · 297.800.000đ', 'Không giới hạn', '25.000 coin, nạp thêm khi mentor đề xuất', '≈ 8,4%'] },
+      ],
+    },
+    {
+      id: 'coin-doi-gio-ty-le',
+      sectionId: 'coin',
+      kind: 'text',
+      text: 'Giá trị coin chỉ chiếm 7–10% giá package, nên phần lớn tiền package vẫn trả cho mentor, hồ sơ, học bổng và hỗ trợ khác như brochure.',
+    },
+    {
+      id: 'coin-doi-gio-u30',
+      sectionId: 'coin',
+      kind: 'text',
+      text: 'U30 không ghi coin không giới hạn, vì ví không có trần thì không đối soát được chi cho Tutor và dễ bị lạm dụng. Cấp sẵn 25.000 coin, khoảng 83 giờ, gần gấp đôi U27, và giữ tỷ lệ khoảng 8% giá gói như U27. Khi gần hết, mentor đề xuất nạp thêm theo nhu cầu thật của học sinh, admin duyệt từng đợt. Như vậy vẫn giữ đúng lời hứa không giới hạn giờ trên brochure.',
+    },
+    {
+      id: 'coin-ai-mo-ta',
+      sectionId: 'coin',
+      kind: 'text',
+      text: 'Tính năng thu coin là AI dự báo việc làm và định cư. AI đọc hồ sơ và mục tiêu của học sinh để dự đoán CV sau khi học xong, đối chiếu với JD thật đang tuyển, rồi trả về mức khớp với JD, khả năng có việc và điều kiện ở lại. Chi tiết giá và cách tính ở [[/ai-du-bao|trang AI dự báo]].',
+    },
+    {
+      id: 'coin-ai-cho',
+      sectionId: 'coin',
+      kind: 'text',
+      text: 'Đây là câu hỏi phụ huynh quan tâm nhất: học xong có việc không, có ở lại được không. Nên là chỗ thu coin tốt mà không tốn giờ mentor. Nằm ở bước 2 và 4 của journey, có thêm lối vào từ trang chủ và từ thẻ trường trong Theo dõi hồ sơ.',
+    },
+    {
+      id: 'coin-ai-bang',
+      sectionId: 'coin',
+      kind: 'table',
+      columns: ['Đầu vào', 'AI làm gì', 'Báo cáo trả về', 'Nguồn dữ liệu'],
+      rows: [
+        {
+          id: 'coin-ai-noi-dung',
+          cells: [
+            'Hồ sơ của tôi ở bước 1: học lực, ngoại ngữ, hoạt động, kinh nghiệm. Trường và ngành target ở bước 2, chương trình học và môn tự chọn. Kế hoạch bù thiếu: thực tập, ngoại khoá, chứng chỉ dự kiến.',
+            'Dự đoán CV lúc tốt nghiệp: bằng cấp, kỹ năng, thực tập, ngoại ngữ. Đối chiếu CV đó với JD đang tuyển ở nước target. Tính mức khớp với JD, khả năng có việc, và tra điều kiện ở lại theo luật visa sau tốt nghiệp.',
+            'CV dự kiến, top 5 JD khớp nhất và lương khởi điểm. Mức khớp dạng “Khớp 7/10 yêu cầu của 34 JD đang tuyển”. Khả năng có việc dạng khoảng, ví dụ 60–75%, kèm độ tin cậy. Điều kiện ở lại dạng chữ, ví dụ “Đủ điều kiện ở lại 2 năm · Ngành thiếu người: Có”. Kỹ năng còn thiếu và gợi ý lớp Tutor, ngoại khoá để bù.',
+            'JD từ các trang tuyển dụng lớn và công việc làm quốc gia, làm mới hằng tháng. Thống kê việc làm sau tốt nghiệp của trường và của nước. Luật visa sau tốt nghiệp lấy từ module quốc gia do mentor cập nhật mỗi mùa.',
+          ],
+        },
+      ],
+    },
+    {
+      id: 'coin-ai-gia-bang',
+      sectionId: 'coin',
+      kind: 'table',
+      columns: ['Mức', 'Giá', 'Nhận được'],
+      rows: [
+        { id: 'coin-ai-gia', cells: ['Xem trước', 'Miễn phí', 'Mức Cao / TB / Thấp cho 1 trường · 1 ngành, không có chi tiết'] },
+        { id: 'ai-gia-bao-cao', cells: ['Báo cáo', '150 coin', '1 trường · 1 ngành: CV dự kiến, top 5 JD, kỹ năng còn thiếu, khả năng có việc, điều kiện ở lại'] },
+        { id: 'ai-gia-so-sanh', cells: ['So sánh', '350 coin', '3 trường đặt cạnh nhau, lúc học sinh đang phân vân'] },
+        { id: 'ai-gia-goi', cells: ['Gói chọn trường', '600 coin', '5 báo cáo trong 1 quốc gia, rẻ hơn khoảng 20% so với mua lẻ'] },
+        { id: 'ai-gia-cap-nhat', cells: ['Cập nhật', '50 coin', 'Chạy lại khi hồ sơ thay đổi. Miễn phí 1 lần trong 30 ngày đầu'] },
+        { id: 'ai-gia-pro', cells: ['Pro', 'Trả bằng 1.000 coin kèm theo', 'Không tặng báo cáo, để coin của Pro có chỗ tiêu'] },
+        { id: 'ai-gia-package', cells: ['Package', 'Có sẵn', '1 báo cáo mỗi quốc gia trong package, mentor đọc cùng học sinh'] },
+      ],
+    },
+    {
+      id: 'coin-luat-hien-thi',
+      sectionId: 'coin',
+      kind: 'text',
+      text: 'Luật hiển thị bắt buộc: khả năng có việc luôn hiện dạng khoảng, ví dụ 60–75%, kèm độ tin cậy, nguồn dữ liệu và ngày cập nhật. Mức khớp hiện dạng “Khớp 7/10 yêu cầu”. Điều kiện ở lại hiện dạng chữ theo luật visa, không phải phần trăm. Ghi rõ đây là ước tính, không phải cam kết việc làm hay định cư. Sales không được dùng con số này để hứa với khách.',
+    },
+    {
+      id: 'coin-het-han',
+      sectionId: 'coin',
+      kind: 'text',
+      text: 'Coin nhiệm vụ của Free, tối đa 50 coin/tháng, hết hạn 60 ngày, nên học sinh phải mua coin. Đây là lần trả tiền đầu tiên tự nhiên. Cuối báo cáo luôn có 2 nút: đặt lớp Tutor để bù kỹ năng thiếu, và hẹn tư vấn 15 phút để mentor đọc báo cáo cùng.',
+    },
+  ],
+}

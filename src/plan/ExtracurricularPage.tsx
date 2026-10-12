@@ -1,20 +1,32 @@
 import { withBase } from '../basePath'
+import { TableOfContents } from './TableOfContents'
+
+const toc = [
+  { id: 'ngoai-khoa', label: 'Ngoại khoá: mô hình và giá' },
+  { id: 'giu-gia', label: 'Giữ nguyên giá 3 gói' },
+  { id: 'thu-mot', label: 'Thử 1 hoạt động bằng coin' },
+  { id: 'trong-package', label: 'Ngoại khoá trong package' },
+  { id: 'ban-dung-luc', label: 'Bán đúng lúc' },
+  { id: 'khac-nckh', label: 'Khác nghiên cứu và kiến tập' },
+  { id: 'can-chot', label: 'Cần chốt trước khi build' },
+] as const
 
 export function ExtracurricularPage() {
   return (
-    <main className="page">
+    <main className="page has-toc">
+      <TableOfContents items={toc} />
       <div className="doc article">
         <a className="back" href={withBase('/#dong-tien-ngoai-khoa')}>
           ← Về bảng dòng tiền
         </a>
-        <h1>Ngoại khoá: mô hình và giá</h1>
+        <h1 id="ngoai-khoa">Ngoại khoá: mô hình và giá</h1>
         <p className="lead">
           USAS quản lý và tổ chức hoạt động. Học viên mua một suất trong thời gian cố định, được gắn vào một số hoạt
           động với vai đã chốt trong gói, và nhận chứng nhận ngoại khoá cho hồ sơ du học. Học viên không nhận contact
           CLB rồi tự xin vào.
         </p>
 
-        <h2>Đề xuất: giữ nguyên giá 3 gói, đổi cách bán trên web</h2>
+        <h2 id="giu-gia">Đề xuất: giữ nguyên giá 3 gói, đổi cách bán trên web</h2>
         <div className="article-table">
           <table>
             <thead>
@@ -89,7 +101,7 @@ export function ExtracurricularPage() {
           </li>
         </ul>
 
-        <h2>Sản phẩm mới: thử 1 hoạt động bằng coin</h2>
+        <h2 id="thu-mot">Sản phẩm mới: thử 1 hoạt động bằng coin</h2>
         <p>
           Phần này không thay giá gói. Đây là món nhỏ thêm vào cho người chưa muốn mua cả gói, hoặc đã dùng hết suất
           trong package.
@@ -132,7 +144,7 @@ export function ExtracurricularPage() {
           </table>
         </div>
 
-        <h2>Ngoại khoá trong package</h2>
+        <h2 id="trong-package">Ngoại khoá trong package</h2>
         <div className="article-table">
           <table>
             <thead>
@@ -170,7 +182,7 @@ export function ExtracurricularPage() {
           package thì mua thêm hoạt động lẻ bằng coin, hoặc mua gói BASIC trở lên.
         </p>
 
-        <h2>Bán đúng lúc, theo thời gian còn lại</h2>
+        <h2 id="ban-dung-luc">Bán đúng lúc, theo thời gian còn lại</h2>
         <p>
           Web chỉ gợi ý gói còn kịp xong trước deadline nộp sớm nhất. Bán gói không kịp giao là tạo khiếu nại.
         </p>
@@ -210,7 +222,7 @@ export function ExtracurricularPage() {
           deadline. Thêm lối vào từ phần kỹ năng còn thiếu trong báo cáo AI dự báo việc làm.
         </p>
 
-        <h2>Khác với nghiên cứu khoa học và kiến tập</h2>
+        <h2 id="khac-nckh">Khác với nghiên cứu khoa học và kiến tập</h2>
         <ul>
           <li>
             <strong>Ngoại khoá:</strong> suất hoạt động cộng vai tình nguyện hoặc ban, đầu ra là chứng nhận cho hồ sơ.
@@ -228,7 +240,7 @@ export function ExtracurricularPage() {
           được cử vào một CLB cụ thể.
         </p>
 
-        <h2>Chưa có trong nguồn, cần chốt trước khi build</h2>
+        <h2 id="can-chot">Chưa có trong nguồn, cần chốt trước khi build</h2>
         <ul>
           <li>Ai phân hoạt động, học viên có được chọn sự kiện không.</li>
           <li>Một “hoạt động” tính là gì, điểm danh thế nào.</li>

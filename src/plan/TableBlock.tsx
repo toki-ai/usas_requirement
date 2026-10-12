@@ -5,15 +5,16 @@ import type { Comment, PlanTable } from '../types'
 type TableBlockProps = {
   table: PlanTable
   comments: Comment[]
+  fullWidth?: boolean
 }
 
 function commentsForRow(comments: Comment[], rowId: string) {
   return comments.filter((comment) => comment.anchorId === rowId)
 }
 
-export function TableBlock({ table, comments }: TableBlockProps) {
+export function TableBlock({ table, comments, fullWidth }: TableBlockProps) {
   return (
-    <div className="plan-table" style={{ '--cols': table.columns.length } as CSSProperties}>
+    <div className={fullWidth ? 'plan-table full' : 'plan-table'} style={{ '--cols': table.columns.length } as CSSProperties}>
       <div className="line table-head">
         <div className="line-body">
           <div className="cells">
@@ -23,7 +24,7 @@ export function TableBlock({ table, comments }: TableBlockProps) {
           </div>
           <span className="icon-gap" aria-hidden="true" />
         </div>
-        <div />
+        {fullWidth ? null : <div />}
       </div>
       {table.rows.map((row) => (
         <LineRow
